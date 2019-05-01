@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>colors</title>
+</head>
+<body>
+<label for="options">Color:</label>
+    <form id="options" action="#" method="post">
+        <check if="{{ isset(@errors['color']) }}">
+            <p>{{ @errors['color'] }}</p>
+        </check>
+        <select name="color">
+            <repeat group ="{{ @colors }}" value="{{ @colorOption }}">
+                <option>{{ @colorOption }}</option>
+            </repeat>
+        </select>
+        <input type="submit" value="submit">
+    </form>
+
+</body>
+</html>
