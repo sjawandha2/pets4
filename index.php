@@ -36,20 +36,42 @@ $f3->route('GET /', function()
 $f3->route('GET|POST /order', function($f3)
 {
         $_SESSION = array();
-        if (isset($_POST['animal']))
-        {
-            $animal = $_POST['animal'];
-            if (validString($animal))
-            {
-                $_SESSION['animal'] = $animal;
-                $f3->reroute('/order2');
-            }
-            else
-            {
-                $f3->set("errors['animal']","Please enter an animal");
-            }
-        }
+        if(!empty($_POST)) {
 
+            //get data from form
+            $qty = $_POST['qty'];
+
+            //add data to hive
+            $f3->set('qty', $qty);
+
+
+            if (isset($_POST['animal']))
+            {
+                $animal = $_POST['animal'];
+                if (validString($animal))
+                {
+                    $_SESSION['animal'] = $animal;
+                }
+                else
+                {
+                    $f3->set("errors['animal']","Please enter an animal");
+                }
+            }
+            if (isset($_POST['qty']))
+            {
+                if (validQty($qty)) //if data is valid
+                {
+                    $_SESSION['qty'] = $qty;
+                }
+                else
+                {
+                    $f3->set("errors['qty']","Please enter the quantity");
+                }
+            }
+
+            //redirect to next form
+            $f3->reroute('/order2');
+        }
     //Display a view
     $view = new Template();
     echo $view->render('views/form1.html');

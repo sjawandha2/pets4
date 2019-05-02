@@ -14,7 +14,16 @@
         Animal
         <input type="text" id="" name="animal">
     </label>
+
+    <label>Quantity
+        <input type="text" name="qty" value="{{ @qty }}">
+        <check if="{{ @errors['qty'] }}">
+            <span class="err">{{ @errors['qty'] }}</span>
+        </check>
+    </label>
+
     <input type="submit" value="Next">
+
 </form>
 </body>
 </html>

@@ -11,3 +11,9 @@ function validString($animal)
 {
     return ($animal!= null && ctype_alpha($animal));
 }
+
+
+function validQty($qty)
+{
+    return !empty($qty) && ctype_digit($qty) && $qty >= 1;
+}
