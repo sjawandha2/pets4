@@ -1,7 +1,6 @@
 <?php
 /**
  *index.php
- * @author Maria Gallardo
  *
  */
 
@@ -22,6 +21,8 @@ require_once('model/validation-functions.php');
 $f3 = Base::instance();
 
 $f3->set('colors', array('pink','green','blue'));
+$f3->set('petname', array('Bella','Oscer','Ruby','Coco','Daisy','Max','Alfie'));
+
 
 //Turn on Fat-Free error reporting
 $f3->set('DEBUG', 3);
@@ -61,6 +62,8 @@ $f3->route('GET|POST /order', function($f3)
                 if (validQty($qty)) //if data is valid
                 {
                     $_SESSION['qty'] = $qty;
+                    print_r($qty);
+
                 }
                 else
                 {
@@ -70,10 +73,10 @@ $f3->route('GET|POST /order', function($f3)
                 }
             if ($isValid)
             {
-
                 //redirect to next form
                 $f3->reroute('/order2');
             }
+
         }
     //Display a view
     $view = new Template();
@@ -83,20 +86,51 @@ $f3->route('GET|POST /order', function($f3)
 
 $f3->route('GET|POST /order2', function($f3)
 {
-    $color = $_POST['color'];
-    if (isset($_POST['color']))
+    $isValid = true;
+    if(!empty($_POST))
     {
+
+        $color = $_POST['color'];
+        $pname = $_POST['pname'];
+
+    //add data to hive
+    $f3->set('color', $color);
+    $f3->set('pname', $pname);
         if (validColor($color))
         {
             $_SESSION['color'] = $color;
-            $f3->reroute('/results');
         }
         else
         {
             $f3->set("errors['color']","Please enter a valid color");
-        }
-    }
+            $isValid = false;
 
+        }
+
+        if (validName($pname))
+        {
+            $_SESSION['pname'] = $pname;
+            if (empty($pname)) {
+                $_SESSION['pname'] = "No Names selected";
+            }
+            else {
+                $_SESSION['pname'] = implode(', ', $pname);
+            }
+        }
+        else
+        {
+            $f3->set("errors['pname']","Invalid Choice");
+            $isValid = false;
+
+        }
+
+        if($isValid)
+        {
+            //redirect to next form
+            $f3->reroute('/results');
+        }
+
+    }
     $view = new Template();
     echo $view->render('views/form2.html');
 

@@ -15,6 +15,22 @@
                 <option>{{ @colorOption }}</option>
             </repeat>
         </select>
+
+        <!-- Add pet names checkboxes here -->
+        <p>Select Pet Name:
+            <check if="{{ @errors['pname'] }}">
+                <span class="err">{{ @errors['pname'] }}</span>
+            </check><br>
+
+            <repeat group="{{ @petname }}" value="{{ @nameOption }}">
+                <label><input type="checkbox" name="pname[]" value="{{ @nameOption }}"
+                    <check if="{{ !empty(@pname) && in_array(@nameOption, @pname) }}">
+                        checked="checked"
+                    </check>
+                    >{{ @nameOption }}</label><br>
+            </repeat>
+        </p>
+
         <input type="submit" value="submit">
     </form>
 
