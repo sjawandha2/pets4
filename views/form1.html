@@ -4,26 +4,33 @@
     <meta charset="UTF-8">
     <title>animals</title>
 </head>
+<style>
+    .err
+    {
+        color: red;
+    }
+
+</style>
 <body>
+
 <h1>Animal</h1>
 <form action="#" method="post">
-    <check if="{{ isset(@errors['animal']) }}">
-        <p>{{ @errors['animal'] }}</p>
-    </check>
+    <check if="{{ (@errors['animal']) }}">
+        <span class="err">{{ @errors['animal'] }}</span>
+    </check><br>
     <label>
         Animal
-        <input type="text" id="" name="animal">
-    </label>
-
+        <input type="text" id="" name="animal" value="{{@animal}}">
+    </label><br>
+    <check if="{{ @errors['qty'] }}">
+        <span class="err">{{ @errors['qty'] }}</span>
+    </check><br>
     <label>Quantity
         <input type="text" name="qty" value="{{ @qty }}">
-        <check if="{{ @errors['qty'] }}">
-            <span class="err">{{ @errors['qty'] }}</span>
-        </check>
     </label>
+    <hr>
 
     <input type="submit" value="Next">
-
 </form>
 </body>
 </html>
